@@ -1,3 +1,5 @@
+//const { json } = require("body-parser");
+
 function setMovie(movie) {
   for (const element of document.forms[0].elements) {
     const name = element.id;
@@ -59,15 +61,19 @@ function getMovie() {
 }
 
 function putMovie() {
-  /* Task 3.3. 
-    - Get the movie data using getMovie()
-    - Configure the XMLHttpRequest to make a PUT to /movies/:imdbID
-    - Set the 'Content-Type' appropriately for JSON data
-    - Configure the function below as the onload event handler
-    - Send the movie data as JSON
-  */
+  //Task 3.3. - Get the movie data using getMovie()
+  const movie = getMovie();
+
+  // - Configure the XMLHttpRequest to make a PUT to /movies/:imdbID
 
   const xhr = new XMLHttpRequest();
+  xhr.open("PUT", "/movies/" + movie.imdbID);
+  //  - Set the 'Content-Type' appropriately for JSON data
+  xhr.setRequestHeader("Content-Type", "application/json");
+  // - Configure the function below as the onload event handler
+
+  //- Send the movie data as JSON
+
   xhr.onload = function () {
     if (xhr.status == 200 || xhr.status === 204) {
       location.href = "index.html";
@@ -75,6 +81,7 @@ function putMovie() {
       alert("Saving of movie data failed. Status code was " + xhr.status);
     }
   };
+  xhr.send(JSON.stringify(movie));
 }
 
 /** Loading and setting the movie data for the movie with the passed imdbID */
@@ -96,4 +103,3 @@ xhr.onload = function () {
 };
 
 xhr.send();
-
